@@ -45,3 +45,11 @@ def test_is_integer():
 def test_instantiate_from_csv():
     """Проверяем создание списка товаров из файла csv"""
     assert len(Item.instantiate_from_csv(path='./data/items.csv')) == 5
+
+
+def test_repr(test_item1):
+    assert repr(test_item1) == "Item('Keyboard', 1000, 20)"
+
+
+def test_str(test_item1):
+    assert str(test_item1) == "Keyboard"

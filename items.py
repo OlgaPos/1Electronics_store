@@ -51,21 +51,33 @@ class Item:
         else:
             return False
 
+    def __repr__(self):
+        return f"{self.__class__.__name__}('{self.__name}', {self.price}, {self.quantity})"
+
+    def __str__(self):
+        return f"{self.__name}"
+
 
 if __name__ == '__main__':
+    item1 = Item("Смартфон", 10000, 20)
+    item1
+    Item('Смартфон', 10000, 20)
+    print(item1)
+
+
     # item3 = Item('Phone', 10000, 5)
     # item3.name = "Smartphone"
     # print(item3.name)
     # item3.name = "SuperSmartphone"
 
-    Item.instantiate_from_csv('data/items.csv')  # создание объектов из данных файла
-    print(len(Item.all))  # в файле 5 записей с данными по товарам
-    item1 = Item.all[0]
-    print(item1.name)
-
-    print(Item.is_integer(5))
-    print(Item.is_integer(5.0))
-    print(Item.is_integer(5.5))
+    # Item.instantiate_from_csv('data/items.csv')  # создание объектов из данных файла
+    # print(len(Item.all))  # в файле 5 записей с данными по товарам
+    # item1 = Item.all[0]
+    # print(item1.name)
+    #
+    # print(Item.is_integer(5))
+    # print(Item.is_integer(5.0))
+    # print(Item.is_integer(5.5))
 
     # item1 = Item("Smartphone", 10000, 20)
     # item2 = Item("Laptop", 20000, 5)
