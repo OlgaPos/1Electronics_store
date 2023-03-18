@@ -14,7 +14,7 @@ class Item:
         self.all.append(self)  # Не стоит добавлять внутрь экземпляра самого себя
 
     def calculate_total_price(self):
-        return self.price * self. quantity
+        return self.price * self.quantity
 
     def apply_discount(self):
         self.price = self.price * self.pay_rate
@@ -57,13 +57,52 @@ class Item:
     def __str__(self):
         return f"{self.__name}"
 
+    def __add__(self, other):
+        """Складываем количество товаров в классах Item и Phone"""
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        else:
+            raise ValueError("Сложение возможно только для экземпляров классов Item и Phone")
+
+
+class Phone(Item):
+
+    def __init__(self, name: str, price: int, quantity: int, number_of_sim: int):
+        """Наследуем инициализацию класса Phone от Item. Доп. атрибут - количество сим-карт"""
+        super().__init__(name, price, quantity)
+        self.__number_of_sim = number_of_sim
+
+    def __repr__(self):
+        """Наследуем метод repr от класса Item с доп. атрибутом количество сим-карт"""
+        return f"{super().__repr__().replace(')', '')}, {self.__number_of_sim})"
+
+    @property
+    def number_of_sim(self) -> int:
+        """Декоратор позволяет вносить изменения в private атрибут"""
+        return self.__number_of_sim
+
+    @number_of_sim.setter
+    def number_of_sim(self, value: int):
+        """Проверяем, чтобы длина названия товара не была больше 10 букв"""
+        if value > 0:
+            self.__number_of_sim = value
+        else:
+            raise ValueError("Количество физических сим-карт должно быть целым числом больше нуля")
+
 
 if __name__ == '__main__':
-    item1 = Item("Смартфон", 10000, 20)
-    item1
-    Item('Смартфон', 10000, 20)
-    print(item1)
+    # смартфон iPhone 14, цена 120_000, количество товара 5, сим-карт 2
+    phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    print(phone1)
 
+    print(repr(phone1))
+
+    phone1.number_of_sim = 0
+
+    # item1 = Item("Смартфон", 10000, 20)
+    # item1
+    # Item('Смартфон', 10000, 20)
+    # print(item1)
 
     # item3 = Item('Phone', 10000, 5)
     # item3.name = "Smartphone"

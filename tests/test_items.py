@@ -1,10 +1,5 @@
 import pytest
-from items import Item
-
-
-@pytest.fixture
-def test_item1():
-    return Item("Keyboard", 1000, 20)
+from items import Item, Phone
 
 
 def test_multiply_price_quantity(test_item1):
@@ -22,11 +17,6 @@ def test_change_name(test_item1, value="Board"):
     test_item1.name = value
     print(test_item1.name)
     assert test_item1.name == "Board"
-
-
-@pytest.fixture
-def test_new_item():
-    return Item("None", 1000, 20)
 
 
 def test_name(value="SuperKeyboard"):
@@ -47,9 +37,30 @@ def test_instantiate_from_csv():
     assert len(Item.instantiate_from_csv(path='./data/items.csv')) == 5
 
 
-def test_repr(test_item1):
-    assert repr(test_item1) == "Item('Keyboard', 1000, 20)"
+# def test_repr(test_item1):
+#     assert repr(test_item1) == "Item('Keyboard', 1000, 20)"
 
 
 def test_str(test_item1):
     assert str(test_item1) == "Keyboard"
+
+
+def test_repr(test_phone1):
+    assert repr(test_phone1) == "Phone('iPhone 14', 120000, 5, 2)"
+
+
+def test_number_of_sim(test_phone1):
+    assert test_phone1.number_of_sim == 2
+    test_phone1.number_of_sim = 1
+    assert test_phone1.number_of_sim == 1
+    with pytest.raises(Exception):
+        test_phone1.number_of_sim = 0
+
+
+def test_add(test_item1, test_phone1):
+    assert test_item1 + test_phone1 == 25
+    assert test_phone1 + test_item1 == 25
+    assert test_phone1 + test_phone1 == 10
+    assert test_item1 + test_item1 == 40
+    with pytest.raises(ValueError):
+        print(test_phone1 + 100)
