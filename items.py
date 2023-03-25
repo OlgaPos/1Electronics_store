@@ -83,21 +83,56 @@ class Phone(Item):
 
     @number_of_sim.setter
     def number_of_sim(self, value: int):
-        """Проверяем, чтобы длина названия товара не была больше 10 букв"""
+        """Проверяем, чтобы количество сим-карт было больше 0"""
         if value > 0:
             self.__number_of_sim = value
         else:
             raise ValueError("Количество физических сим-карт должно быть целым числом больше нуля")
 
 
+class Mixing:
+
+    def __init__(self, *args):
+        """Создаём специальный класс для хранения и изменения языка клавиатуры"""
+        self.__language = 'EN'  # по умолчанию при инициализации 'EN'
+        super().__init__(*args)
+
+    @property
+    def language(self) -> str:
+        """Декоратор позволяет вносить изменения в private атрибут"""
+        return self.__language
+
+    def change_lang(self):
+        """Метод для изменения раскладки клавиатуры"""
+        if self.__language == 'EN':
+            self.__language = 'RU'
+        else:
+            self.__language = 'EN'
+
+
+class KeyBoard(Mixing, Item):
+
+    def __init__(self, *args):
+        """Наследуем инициализацию класса от Mixing и Item"""
+        super().__init__(*args)
+
+
 if __name__ == '__main__':
+    kb = KeyBoard('Dark Project KD87A', 9600, 5)
+    # print(KeyBoard.__mro__)
+    print(kb)
+    print(kb.language)
+    kb.change_lang()
+    print(kb.language)
+    kb.language = 'CH'
+
     # смартфон iPhone 14, цена 120_000, количество товара 5, сим-карт 2
-    phone1 = Phone("iPhone 14", 120_000, 5, 2)
-    print(phone1)
+    # phone1 = Phone("iPhone 14", 120_000, 5, 2)
+    # print(phone1)
+    #
+    # print(repr(phone1))
 
-    print(repr(phone1))
-
-    phone1.number_of_sim = 0
+    # phone1.number_of_sim = 0
 
     # item1 = Item("Смартфон", 10000, 20)
     # item1
