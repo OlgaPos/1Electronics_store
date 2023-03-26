@@ -15,3 +15,8 @@ def test_new_item():
 @pytest.fixture()
 def test_phone1():
     return Phone("iPhone 14", 120_000, 5, 2)
+
+
+@pytest.fixture()
+def test_kb1():
+    return KeyBoard('Dark Project KD87A', 9600, 5)

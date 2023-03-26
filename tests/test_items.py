@@ -1,5 +1,5 @@
 import pytest
-from items import Item, Phone
+from items import *
 
 
 def test_multiply_price_quantity(test_item1):
@@ -37,10 +37,6 @@ def test_instantiate_from_csv():
     assert len(Item.instantiate_from_csv(path='./data/items.csv')) == 5
 
 
-# def test_repr(test_item1):
-#     assert repr(test_item1) == "Item('Keyboard', 1000, 20)"
-
-
 def test_str(test_item1):
     assert str(test_item1) == "Keyboard"
 
@@ -50,6 +46,7 @@ def test_repr(test_phone1):
 
 
 def test_number_of_sim(test_phone1):
+    """Проверяем, что количество сим-карт больше 0"""
     assert test_phone1.number_of_sim == 2
     test_phone1.number_of_sim = 1
     assert test_phone1.number_of_sim == 1
@@ -58,9 +55,21 @@ def test_number_of_sim(test_phone1):
 
 
 def test_add(test_item1, test_phone1):
+    """Проверяем возможность сложения между классами"""
     assert test_item1 + test_phone1 == 25
     assert test_phone1 + test_item1 == 25
     assert test_phone1 + test_phone1 == 10
     assert test_item1 + test_item1 == 40
     with pytest.raises(ValueError):
         print(test_phone1 + 100)
+
+
+def test_repr_kb(test_kb1):
+    assert repr(test_kb1) == "KeyBoard('Dark Project KD87A', 9600, 5)"
+
+
+def test_change_lang(test_kb1):
+    """Проверяем текущую раскладку клавиатуры и её изменение"""
+    assert test_kb1.language == 'EN'
+    test_kb1.change_lang()
+    assert test_kb1.language == 'RU'
