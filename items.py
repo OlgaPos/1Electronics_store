@@ -90,12 +90,9 @@ class Phone(Item):
             raise ValueError("Количество физических сим-карт должно быть целым числом больше нуля")
 
 
-class Mixing:
+class MixingLanguage:
 
-    def __init__(self, *args):
-        """Создаём специальный класс для хранения и изменения языка клавиатуры"""
-        self.__language = 'EN'  # по умолчанию при инициализации 'EN'
-        super().__init__(*args)
+    __language = 'EN'  # по умолчанию при инициализации 'EN'
 
     @property
     def language(self) -> str:
@@ -110,7 +107,7 @@ class Mixing:
             self.__language = 'EN'
 
 
-class KeyBoard(Mixing, Item):
+class KeyBoard(MixingLanguage, Item):
 
     def __init__(self, *args):
         """Наследуем инициализацию класса от Mixing и Item"""
