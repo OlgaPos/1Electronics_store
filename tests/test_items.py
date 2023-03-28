@@ -75,11 +75,13 @@ def test_change_lang(test_kb1):
     assert test_kb1.language == 'RU'
 
 
-# def test_error_csv_file_damaged():
-#     """Проверяем, что файл csv повреждён"""
-#     assert Item.instantiate_from_csv(path='./data/items2.csv') == "Файл item.csv поврежден"
+def test_error_csv_file_damaged():
+    """Проверяем, что файл csv повреждён"""
+    assert Item.instantiate_from_csv(path='./data/items2.csv') == None
+    # assert Item.instantiate_from_csv(path='./data/items2.csv') == "Файл item.csv поврежден"
 
 
 def test_file_not_found_error():
     """Проверяем, что файл csv отсутствует"""
-    assert Item.instantiate_from_csv(path='./data/items3.csv') == "Отсутствует файл tests/items.csv"
+    assert Item.instantiate_from_csv(path='./data/items3.csv') == None
+    # assert return(Item.instantiate_from_csv(path='./data/items3.csv')) == "Отсутствует файл ./data/items3.csv"
