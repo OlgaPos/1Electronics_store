@@ -36,12 +36,22 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls, path: str):
         """Принимаем список товаров из файла csv"""
-        items = []
-        with open(path, newline='') as csvfile:
-            reader = csv.DictReader(csvfile, delimiter=',')
-            for row in reader:
-                items.append(cls(row["name"], int(row["price"]), int(row["quantity"])))
-            return items
+        try:
+            items = []
+            with open(path, newline='') as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=',')
+                for row in reader:
+                    if list(row.keys()) == ["name", "price", "quantity"]:
+                        items.append(cls(row["name"], int(row["price"]), int(row["quantity"])))
+                    else:
+                        raise InstantiateCSVError
+                return items
+        except FileNotFoundError:
+            print(f"Отсутствует файл {path}")
+        except InstantiateCSVError:
+            print(f"Файл item.csv поврежден")
+        # finally:
+        #     print("finish")
 
     @staticmethod
     def is_integer(num) -> bool:
@@ -91,7 +101,6 @@ class Phone(Item):
 
 
 class MixingLanguage:
-
     __language = 'EN'  # по умолчанию при инициализации 'EN'
 
     @property
@@ -114,14 +123,27 @@ class KeyBoard(MixingLanguage, Item):
         super().__init__(*args)
 
 
+class InstantiateCSVError(Exception):
+    """Класс-исключение проверяет не повреждён ли файл item.csv"""
+
+    def __init__(self, *args):
+        self.message = args[0] if args else "Файл item.csv поврежден"
+
+    def __str__(self):
+        return self.message
+
+
 if __name__ == '__main__':
-    kb = KeyBoard('Dark Project KD87A', 9600, 5)
-    # print(KeyBoard.__mro__)
-    print(kb)
-    print(kb.language)
-    kb.change_lang()
-    print(kb.language)
-    kb.language = 'CH'
+    # Item.instantiate_from_csv('tests/items.csv')
+    Item.instantiate_from_csv('data/items2.csv')
+
+    # kb = KeyBoard('Dark Project KD87A', 9600, 5)
+    # # print(KeyBoard.__mro__)
+    # print(kb)
+    # print(kb.language)
+    # kb.change_lang()
+    # print(kb.language)
+    # kb.language = 'CH'
 
     # смартфон iPhone 14, цена 120_000, количество товара 5, сим-карт 2
     # phone1 = Phone("iPhone 14", 120_000, 5, 2)
