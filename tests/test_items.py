@@ -1,3 +1,7 @@
+import contextlib
+import io
+from io import StringIO
+
 import pytest
 from items import *
 
@@ -78,10 +82,22 @@ def test_change_lang(test_kb1):
 def test_error_csv_file_damaged():
     """Проверяем, что файл csv повреждён"""
     assert Item.instantiate_from_csv(path='./data/items2.csv') == None
-    # assert Item.instantiate_from_csv(path='./data/items2.csv') == "Файл item.csv поврежден"
 
 
 def test_file_not_found_error():
     """Проверяем, что файл csv отсутствует"""
     assert Item.instantiate_from_csv(path='./data/items3.csv') == None
-    # assert return(Item.instantiate_from_csv(path='./data/items3.csv')) == "Отсутствует файл ./data/items3.csv"
+
+
+def test_error_csv_file_damaged_message():
+    s = io.StringIO()
+    with contextlib.redirect_stdout(s):
+        Item.instantiate_from_csv(path='./data/items2.csv')
+    assert s.getvalue() == f'Файл item.csv поврежден\n'
+
+
+def test_file_not_found_error_message():
+    s = io.StringIO()
+    with contextlib.redirect_stdout(s):
+        Item.instantiate_from_csv(path='./data/items3.csv')
+    assert s.getvalue() == f'Отсутствует файл ./data/items3.csv\n'
